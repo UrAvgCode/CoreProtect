@@ -26,3 +26,14 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build
         run: mvn -B verify
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: target/CoreProtect-*.jar
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "CoreProtect"
+          files: target/CoreProtect-*.jar
